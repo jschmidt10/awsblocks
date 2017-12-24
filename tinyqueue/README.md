@@ -29,7 +29,7 @@ public class Chirp {
             queue.insert("Pow!", 0L); // you can insert at a specified timestamp too
             queue.insert("Bam!", 1L);
             
-            queue.fetch(10L); // fetch all the chirps starting at the timestamp 10 until now
+            queue.fetch(10L).forEachRemaining(System.out::println); // fetch all the chirps starting at the timestamp 10 until now
             
             queue.delete(1L, 10L); // delete all the chirps between time (1L, 10L] (end is exclusive)
         }
