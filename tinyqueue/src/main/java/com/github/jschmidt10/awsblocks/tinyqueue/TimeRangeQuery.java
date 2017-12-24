@@ -17,7 +17,7 @@ public class TimeRangeQuery extends QueryRequest {
     public TimeRangeQuery(String table, String queueName, long from, long to) {
         Map<String, AttributeValue> attributeValues = new TreeMap<>();
         attributeValues.put(":queue", new AttributeValue(queueName));
-        attributeValues.put(":start", new MaskedTimestamp(to));
+        attributeValues.put(":start", new MaskedTimestamp(to - 1));
         attributeValues.put(":end", new MaskedTimestamp(from));
 
         setTableName(table);
