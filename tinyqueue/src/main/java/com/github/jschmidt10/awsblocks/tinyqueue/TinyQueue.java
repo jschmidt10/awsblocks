@@ -59,6 +59,15 @@ public class TinyQueue implements AutoCloseable {
     }
 
     /**
+     * Fetches all messages in the queue.
+     *
+     * @return items
+     */
+    public Iterator<TinyQueueItem> fetchAll() {
+        return fetch(0L, System.currentTimeMillis());
+    }
+
+    /**
      * Fetches all messages that have been posted on or after the given timestamp.
      *
      * @param from
