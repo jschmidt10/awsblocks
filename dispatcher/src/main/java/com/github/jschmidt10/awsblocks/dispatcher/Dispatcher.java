@@ -17,6 +17,7 @@ public class Dispatcher implements RequestStreamHandler {
 
     private static final NotFoundHandler NOT_FOUND_HANDLER = new NotFoundHandler();
     private static final LambdaProxyResponse BAD_REQUEST = new LambdaProxyResponse(Http.BAD_REQUEST, "We could not parse your request. Be sure you are using a Lambda Proxy endpoint!");
+    private static final LambdaProxyResponse INTERNAL_SERVER_ERROR = new LambdaProxyResponse(Http.INTERNAL_ERROR, "An unknown error occurred!");
 
     private final Collection<LambdaHandler> handlers;
 
@@ -27,13 +28,21 @@ public class Dispatcher implements RequestStreamHandler {
 
     @Override
     public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
-        LambdaProxyResponse response;
+        LambdaProxyRequest request = null;
+        LambdaProxyResponse response = null;
 
         try {
-            LambdaProxyRequest request = LambdaProxyRequest.parse(inputStream);
-            response = handle(request);
+            request = LambdaProxyRequest.parse(inputStream);
         } catch (Exception e) {
             response = BAD_REQUEST;
+        }
+
+        if (request != null) {
+            try {
+                response = handle(request);
+            } catch (Exception e) {
+                response = INTERNAL_SERVER_ERROR;
+            }
         }
 
         response.writeJson(outputStream);

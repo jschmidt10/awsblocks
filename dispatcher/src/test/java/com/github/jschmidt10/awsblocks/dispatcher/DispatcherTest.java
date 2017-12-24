@@ -38,9 +38,21 @@ public class DispatcherTest {
     }
 
     @Test
-    public void shouldReturnBadRequestOnExceptionInHandler() throws Exception {
+    public void shouldReturnServerErrorOnExceptionInHandler() throws Exception {
         // We specified POST methods to throw an Exception in the HelloWorldHandler
         InputStream input = toProxyRequest("hello", "POST", "");
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+        dispatcher.handleRequest(input, output, null);
+
+        JsonNode node = readResponse(output);
+
+        assertThat(node.get("statusCode").asInt(), is(Http.INTERNAL_ERROR));
+    }
+
+    @Test
+    public void shouldReturnBadRequestOnExceptionParsingRequest() throws Exception {
+        InputStream input = new ByteArrayInputStream("{\"name\":\"invalid request\"}".getBytes());
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
         dispatcher.handleRequest(input, output, null);
