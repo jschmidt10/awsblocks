@@ -1,5 +1,7 @@
 package com.github.jschmidt10.awsblocks.dispatcher;
 
+import com.amazonaws.services.lambda.runtime.Context;
+
 /**
  * Handles a specific Lambda request.
  */
@@ -17,6 +19,7 @@ public interface LambdaHandler {
      * Handles the request.
      *
      * @param request a lambda proxy request
+     * @param context the lambda context
      */
-    LambdaProxyResponse handle(LambdaProxyRequest request);
+    LambdaProxyResponse handle(LambdaProxyRequest request, Context context);
 }

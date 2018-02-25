@@ -39,7 +39,7 @@ public class Dispatcher implements RequestStreamHandler {
 
         if (request != null) {
             try {
-                response = handle(request);
+                response = handle(request, context);
             } catch (Exception e) {
                 response = INTERNAL_SERVER_ERROR;
             }
@@ -51,12 +51,12 @@ public class Dispatcher implements RequestStreamHandler {
     /*
      * Dispatches the request to the correct handler.
      */
-    private LambdaProxyResponse handle(LambdaProxyRequest request) {
+    private LambdaProxyResponse handle(LambdaProxyRequest request, Context context) {
         return handlers
                 .stream()
                 .filter(h -> h.handlesPath(request.getPath()))
                 .findFirst()
                 .orElse(NOT_FOUND_HANDLER)
-                .handle(request);
+                .handle(request, context);
     }
 }

@@ -30,7 +30,7 @@ public class TinyQueueTable {
      * @param writeUnits
      * @return True if the table was created, false, if it already existed.
      */
-    public boolean createTableIfNotExists(long readUnits, long writeUnits) {
+    public boolean createIfNotExists(long readUnits, long writeUnits) {
         return tableExists(table) || createTable(table, readUnits, writeUnits);
     }
 
@@ -39,7 +39,7 @@ public class TinyQueueTable {
      *
      * @throws IllegalStateException If the table does not match the expected format.
      */
-    public void verifyTable() {
+    public void verify() {
         DescribeTableResult dtr = dynamo.describeTable(table);
         List<KeySchemaElement> schema = dtr.getTable().getKeySchema();
 

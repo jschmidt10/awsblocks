@@ -1,5 +1,7 @@
 package com.github.jschmidt10.awsblocks.dispatcher;
 
+import com.amazonaws.services.lambda.runtime.Context;
+
 /**
  * Handler for an unknown path.
  */
@@ -11,7 +13,7 @@ public class NotFoundHandler implements LambdaHandler {
     }
 
     @Override
-    public LambdaProxyResponse handle(LambdaProxyRequest request) {
+    public LambdaProxyResponse handle(LambdaProxyRequest request, Context context) {
         return new LambdaProxyResponse(Http.NOT_FOUND, "Page not found");
     }
 }

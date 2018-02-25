@@ -34,7 +34,7 @@ public class TinyQueue implements AutoCloseable {
         this.dynamo = AmazonDynamoDBClientBuilder.standard().withRegion(region).build();
 
         TinyQueueTable t = new TinyQueueTable(dynamo, table);
-        t.verifyTable();
+        t.verify();
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.github.jschmidt10.awsblocks.dispatcher;
 
+import com.amazonaws.services.lambda.runtime.Context;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -104,7 +105,7 @@ public class DispatcherTest {
         }
 
         @Override
-        public LambdaProxyResponse handle(LambdaProxyRequest request) {
+        public LambdaProxyResponse handle(LambdaProxyRequest request, Context context) {
             if (request.getHttpMethod().equals("POST")) {
                 throw new IllegalArgumentException("HelloWorldHandler does not support POST");
             }
